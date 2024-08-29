@@ -23,6 +23,13 @@ int main()
         drawBoard(spaces);
         if (checkWinner(spaces, player, computer))
         {
+            std::cout << "The player has won!";
+            running = false;
+            break;
+        }
+        else if (checkTie(spaces))
+        {
+            std::cout << "It's a draw!" << '\n';
             running = false;
             break;
         }
@@ -31,6 +38,13 @@ int main()
         drawBoard(spaces);
         if (checkWinner(spaces, player, computer))
         {
+            std::cout << "The computer has won!";
+            running = false;
+            break;
+        }
+        else if (checkTie(spaces))
+        {
+            std::cout << "It's a draw!" << '\n';
             running = false;
             break;
         }
@@ -113,25 +127,55 @@ bool checkWinner(char* spaces, char player, char computer)
     {
         if (spaces[i] == 'X')
         {
-            if (spaces[i] == spaces[i + 3] && spaces[i+3] == spaces[i + 6])
+            if (spaces[i] == spaces[i + 3] && spaces[i + 3] == spaces[i + 6])
             {
                 return true;
             }
         }
         else if (spaces[i] == 'O')
         {
-            if (spaces[i] == spaces[i + 3] && spaces[i+3] == spaces[i + 6])
+            if (spaces[i] == spaces[i + 3] && spaces[i + 3] == spaces[i + 6])
             {
                 return true;
             }
         }
     }
 
+    if (spaces[0] != ' ')
+    {
+        if (spaces[0] == spaces[4] && spaces[4] == spaces[8])
+        {
+            return true;
+        }
+    }
 
+    if (spaces[2] != ' ')
+    {
+        if (spaces[2] == spaces[4] && spaces[4] == spaces[6])
+        {
+            return true;
+        }
+    }
     return false;
 }
 
 bool checkTie(char* spaces)
 {
-    return false;
+    int emptySpaces = 9;
+    for (int i = 0; i < 9; i++)
+    {
+        if (spaces[i] != ' ')
+        {
+            emptySpaces--;
+        }
+    }
+
+    if (emptySpaces == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
