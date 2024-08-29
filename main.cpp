@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <wchar.h>
 
 void drawBoard(char* spaces);
 void playerMove(char* spaces, char player);
@@ -16,9 +17,23 @@ int main()
 
     drawBoard(spaces);
 
-    while (running){
+    while (running)
+    {
         playerMove(spaces, player);
         drawBoard(spaces);
+        if (checkWinner(spaces, player, computer))
+        {
+            running = false;
+            break;
+        }
+
+        computerMove(spaces, computer);
+        drawBoard(spaces);
+        if (checkWinner(spaces, player, computer))
+        {
+            running = false;
+            break;
+        }
     }
 
     return 0;
@@ -52,22 +67,71 @@ void playerMove(char* spaces, char player)
             spaces[number] = player;
             break;
         }
-
-    }while (!number > 0 || !number < 8);
-
-
+    }
+    while (!number > 0 || !number < 8);
 }
 
 void computerMove(char* spaces, char computer)
 {
+    int number;
+    srand(time(nullptr) + getpid());
+
+    while (true)
+    {
+        number = rand() % 9;
+        if (spaces[number] == ' ')
+        {
+            std::cout << "Computer chose: " << number + 1 << '\n';
+            spaces[number] = computer;
+            break;
+        }
+    }
 }
 
 bool checkWinner(char* spaces, char player, char computer)
 {
-    return 0;
+    // this loop will check each row
+    for (int i = 0; i < 9; i += 3)
+    {
+        if (spaces[i] == 'X')
+        {
+            if (spaces[i] == spaces[i + 1] && spaces[i + 1] == spaces[i + 2])
+            {
+                return true;
+            }
+        }
+        else if (spaces[i] == 'O')
+        {
+            if (spaces[i] == spaces[i + 1] && spaces[i + 1] == spaces[i + 2])
+            {
+                return true;
+            }
+        }
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        if (spaces[i] == 'X')
+        {
+            if (spaces[i] == spaces[i + 3] && spaces[i+3] == spaces[i + 6])
+            {
+                return true;
+            }
+        }
+        else if (spaces[i] == 'O')
+        {
+            if (spaces[i] == spaces[i + 3] && spaces[i+3] == spaces[i + 6])
+            {
+                return true;
+            }
+        }
+    }
+
+
+    return false;
 }
 
 bool checkTie(char* spaces)
 {
-    return 0;
+    return false;
 }
