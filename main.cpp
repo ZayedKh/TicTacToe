@@ -11,8 +11,8 @@ bool checkTie(char* spaces);
 int main()
 {
     char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-    char player = 'X';
-    char computer = 'O';
+    char player = 'X'; //player's character
+    char computer = 'O'; // computer's character
     bool running = true;
 
     drawBoard(spaces);
@@ -23,7 +23,7 @@ int main()
         drawBoard(spaces);
         if (checkWinner(spaces, player, computer))
         {
-            std::cout << "The player has won!";
+            std::cout << "The player has won!"; //if win happens after player has moved, the playe won
             running = false;
             break;
         }
@@ -36,18 +36,12 @@ int main()
 
         computerMove(spaces, computer);
         drawBoard(spaces);
-        if (checkWinner(spaces, player, computer))
+        if (checkWinner(spaces, player, computer)) //if win happens after computer has moved, the playe won
         {
             std::cout << "The computer has won!";
             running = false;
             break;
-        }
-        else if (checkTie(spaces))
-        {
-            std::cout << "It's a draw!" << '\n';
-            running = false;
-            break;
-        }
+        } //no need to check for a tie here as the player always makes the last move
     }
 
     return 0;
@@ -56,7 +50,7 @@ int main()
 void drawBoard(char* spaces)
 {
     std::cout << '\n';
-    for (int i = 0; i < 9; i += 3)
+    for (int i = 0; i < 9; i += 3) //loop to draw the board
     {
         std::cout << "     |     |     " << '\n';
         std::cout << "   " << spaces[i] << " |   " << spaces[i + 1] << " |   " << spaces[i + 2] << '\n';
@@ -123,6 +117,7 @@ bool checkWinner(char* spaces, char player, char computer)
         }
     }
 
+    //this loop will check each column
     for (int i = 0; i < 3; i++)
     {
         if (spaces[i] == 'X')
@@ -141,6 +136,7 @@ bool checkWinner(char* spaces, char player, char computer)
         }
     }
 
+    //these if-statements check the diagonals
     if (spaces[0] != ' ')
     {
         if (spaces[0] == spaces[4] && spaces[4] == spaces[8])
@@ -162,6 +158,7 @@ bool checkWinner(char* spaces, char player, char computer)
 bool checkTie(char* spaces)
 {
     int emptySpaces = 9;
+
     for (int i = 0; i < 9; i++)
     {
         if (spaces[i] != ' ')
@@ -170,7 +167,7 @@ bool checkTie(char* spaces)
         }
     }
 
-    if (emptySpaces == 0)
+    if (emptySpaces == 0) //if there are no blank spaces left, and no one has won, than the game is a draw
     {
         return true;
     }
